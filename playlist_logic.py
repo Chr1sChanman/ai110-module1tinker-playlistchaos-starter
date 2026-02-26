@@ -73,13 +73,7 @@ def classify_song(song: Song, profile: Dict[str, object]) -> str:
     is_hype_keyword = any(k in genre for k in hype_keywords)
     is_chill_keyword = any(k in title for k in chill_keywords)
 
-    # #region agent log
-    import json as _json, time as _time
-    _log_entry = _json.dumps({"sessionId":"1bf6a1","runId":"run1","hypothesisId":"H1-H2-H3-H4","location":"playlist_logic.py:classify_song","message":"classify_song evaluation","data":{"title":title,"genre":genre,"energy":energy,"hype_min_energy":hype_min_energy,"favorite_genre":favorite_genre,"genre_eq_fav":genre==favorite_genre,"energy_gte_hype_min":energy>=hype_min_energy,"is_hype_keyword":is_hype_keyword},"timestamp":int(_time.time()*1000)})
-    with open("/Users/christopherchan/Documents/ai110-module1tinker-playlistchaos-starter/.cursor/debug-1bf6a1.log","a") as _f: _f.write(_log_entry+"\n")
-    # #endregion
-
-    if genre == favorite_genre or energy >= hype_min_energy or is_hype_keyword:
+    if energy >= hype_min_energy and (genre == favorite_genre or is_hype_keyword):
         return "Hype"
     if energy <= chill_max_energy or is_chill_keyword:
         return "Chill"
